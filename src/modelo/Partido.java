@@ -1,7 +1,7 @@
 package modelo;
 
 public class Partido {
-	
+
 	private int idPartido;
 	private int jornada;
 	private String equipoLocal;
@@ -9,7 +9,8 @@ public class Partido {
 	private String equipoVisitante;
 	private int golesVisitante;
 
-	public Partido(int idPartido, int jornada, String equipoLocal, int golesLocal, String equipoVisitante, int golesVisitante) {
+	public Partido(int idPartido, int jornada, String equipoLocal, int golesLocal, String equipoVisitante,
+			int golesVisitante) {
 		this.idPartido = idPartido;
 		this.jornada = jornada;
 		this.equipoLocal = equipoLocal;
@@ -66,5 +67,9 @@ public class Partido {
 		this.golesVisitante = golesVisitante;
 	}
 
-	
+	public String getLineaStringCampos(String separador) {
+		return this.getIdPartido() + separador + this.getJornada() + separador + this.getEquipoLocal() + separador
+				+ this.getGolesLocal() + separador + this.getEquipoVisitante() + separador + this.getGolesVisitante();
+	}
+
 }

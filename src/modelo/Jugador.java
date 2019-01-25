@@ -37,4 +37,9 @@ public class Jugador extends Persona {
 		this.idEquipo = idEquipo;
 	}
 	
+	public String getLineaStringCampos(String separador) {
+		return this.getNif() + separador + this.getNombre() + separador + this.getLongitudPaso() + separador
+				+ this.getFecha_nac() + separador + this.getSexo() + separador + this.getIdJugador() + separador
+				+ this.getDorsal() + separador+this.getIdEquipo();
+	}
 }

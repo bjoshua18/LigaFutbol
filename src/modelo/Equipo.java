@@ -1,12 +1,12 @@
 package modelo;
 
 public class Equipo {
-	
+
 	// Fields
 	private int idEquipo;
 	private String nombreCorto;
 	private String nombre;
-	
+
 	// Constructor
 	public Equipo(int idEquipo, String nombreCorto, String nombre) {
 		this.idEquipo = idEquipo;
@@ -36,6 +36,10 @@ public class Equipo {
 
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
+	}
+
+	public String getLineaStringCampos(String separador) {
+		return this.getIdEquipo() + separador + this.getNombreCorto() + separador + this.getNombre();
 	}
 
 }
