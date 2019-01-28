@@ -1,5 +1,10 @@
 package modelo;
 
+import java.util.ArrayList;
+
+import control.Clase;
+import control.Lista;
+
 public class Partido {
 
 	private int idPartido;
@@ -17,6 +22,11 @@ public class Partido {
 		this.golesLocal = golesLocal;
 		this.equipoVisitante = equipoVisitante;
 		this.golesVisitante = golesVisitante;
+	}
+
+	public Partido(String[] atributos) {
+		this(Integer.parseInt(atributos[0]), Integer.parseInt(atributos[1]), atributos[2],
+				Integer.parseInt(atributos[3]), atributos[4], Integer.parseInt(atributos[5]));
 	}
 
 	public int getIdPartido() {
@@ -72,4 +82,7 @@ public class Partido {
 				+ this.getGolesLocal() + separador + this.getEquipoVisitante() + separador + this.getGolesVisitante();
 	}
 
+	public static ArrayList<Partido> crearListaFichero(String rutaFichero, String separador) {
+		return Lista.crearLista(Clase.PARTIDO, rutaFichero, separador);
+	}
 }

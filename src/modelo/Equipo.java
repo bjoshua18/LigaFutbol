@@ -1,5 +1,10 @@
 package modelo;
 
+import java.util.ArrayList;
+
+import control.Clase;
+import control.Lista;
+
 public class Equipo {
 
 	// Fields
@@ -12,6 +17,10 @@ public class Equipo {
 		this.idEquipo = idEquipo;
 		this.nombreCorto = nombreCorto;
 		this.nombre = nombre;
+	}
+	
+	public Equipo(String[] atributos) {
+		this(Integer.parseInt(atributos[0]), atributos[1], atributos[2]);
 	}
 
 	public int getIdEquipo() {
@@ -42,4 +51,7 @@ public class Equipo {
 		return this.getIdEquipo() + separador + this.getNombreCorto() + separador + this.getNombre();
 	}
 
+	public static ArrayList<Equipo> crearListaFichero(String rutaFichero, String separador) {
+		return Lista.crearLista(Clase.EQUIPO, rutaFichero, separador);
+	}
 }
