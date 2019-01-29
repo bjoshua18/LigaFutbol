@@ -15,6 +15,7 @@ public class Clasificacion {
 	private int partidosGanados;
 	private int partidosEmpate;
 	private int partidosPerdidos;
+	private int partidosJugados;
 	private int numGolesFavor;
 	private int numGolesContra;
 	private int diferenciaGoles;
@@ -31,21 +32,22 @@ public class Clasificacion {
 	}
 
 	public Clasificacion(String equipo, int puntuacion, int partidosGanados, int partidosEmpate, int partidosPerdidos,
-			int numGolesFavor, int numGolesContra) {
+			int partidosJugados, int numGolesFavor, int numGolesContra) {
 		this.equipo = equipo;
 		this.puntuacion = puntuacion;
 		this.partidosGanados = partidosGanados;
 		this.partidosEmpate = partidosEmpate;
 		this.partidosPerdidos = partidosPerdidos;
+		this.partidosJugados = partidosJugados;
 		this.numGolesFavor = numGolesFavor;
 		this.numGolesContra = numGolesContra;
 		this.diferenciaGoles = numGolesFavor - numGolesContra;
 	}
 
-	public Clasificacion(String[] atributos) {
+	public Clasificacion(String[] atributos) throws NumberFormatException {
 		this(atributos[0], Integer.parseInt(atributos[1]), Integer.parseInt(atributos[2]),
 				Integer.parseInt(atributos[3]), Integer.parseInt(atributos[4]), Integer.parseInt(atributos[5]),
-				Integer.parseInt(atributos[6]));
+				Integer.parseInt(atributos[6]), Integer.parseInt(atributos[7]));
 	}
 
 	// GETTERS Y SETTERS
@@ -69,6 +71,10 @@ public class Clasificacion {
 		return partidosPerdidos;
 	}
 
+	public int getPartidosJugados() {
+		return partidosJugados;
+	}
+
 	public int getNumGolesFavor() {
 		return numGolesFavor;
 	}
@@ -76,7 +82,7 @@ public class Clasificacion {
 	public int getNumGolesContra() {
 		return numGolesContra;
 	}
-	
+
 	public int getDiferenciaGoles() {
 		return diferenciaGoles;
 	}
@@ -101,6 +107,10 @@ public class Clasificacion {
 		this.partidosPerdidos = partidosPerdidos;
 	}
 
+	public void setPartidosJugados(int partidosJugados) {
+		this.partidosJugados = partidosJugados;
+	}
+
 	public void setNumGolesFavor(int numGolesFavor) {
 		this.numGolesFavor = numGolesFavor;
 	}
@@ -108,7 +118,7 @@ public class Clasificacion {
 	public void setNumGolesContra(int numGolesContra) {
 		this.numGolesContra = numGolesContra;
 	}
-	
+
 	public void setDiferenciaGoles(int diferenciaGoles) {
 		this.diferenciaGoles = diferenciaGoles;
 	}
@@ -116,11 +126,48 @@ public class Clasificacion {
 	public String getLineaStringCampos(String separador) {
 		return this.getEquipo() + separador + this.getPuntuacion() + separador + this.getPartidosGanados() + separador
 				+ this.getPartidosEmpate() + separador + this.getPartidosPerdidos() + separador
-				+ this.getNumGolesFavor() + separador + this.getNumGolesContra() + separador + this.getDiferenciaGoles();
+				+ this.getPartidosJugados() + separador + this.getNumGolesFavor() + separador + this.getNumGolesContra()
+				+ separador + this.getDiferenciaGoles();
 	}
 
 	public static ArrayList<Clasificacion> crearListaFichero(String rutaFichero, String separador) {
 		return Lista.crearLista(Clase.CLASIFICACION, rutaFichero, separador);
+	}
+
+	public static void ordenarMapaClasificacion(ArrayList<Clasificacion> listaClasificaciones) {
+		Clasificacion max;
+		for (int i = 0; i < listaClasificaciones.size() - 1; i++) {
+			max = listaClasificaciones.get(i);
+
+			for (int j = i + 1; j < listaClasificaciones.size(); j++)
+				max = getClasificacionMayor(max, listaClasificaciones.get(j));
+
+			intercambiarPosiciones(listaClasificaciones.get(i), i, max, listaClasificaciones.indexOf(max),
+					listaClasificaciones);
+		}
+	}
+
+	private static Clasificacion getClasificacionMayor(Clasificacion max, Clasificacion comprobado) {
+		if (max.getPuntuacion() < comprobado.getPuntuacion()) {
+			return comprobado;
+		} else if (max.getPuntuacion() == comprobado.getPuntuacion()) {
+			if (max.getDiferenciaGoles() < comprobado.getDiferenciaGoles()) {
+				return comprobado;
+			} else if (max.getDiferenciaGoles() == comprobado.getDiferenciaGoles()
+					&& max.getNumGolesFavor() < comprobado.getNumGolesFavor()) {
+				return comprobado;
+			}
+		}
+		return max;
+	}
+
+	private static void intercambiarPosiciones(Clasificacion clasificacion, int indexClasificacion, Clasificacion max,
+			int indexMax, ArrayList<Clasificacion> listaClasificaciones) {
+		Clasificacion aux;
+		aux = clasificacion;
+		listaClasificaciones.set(indexClasificacion, max);
+		listaClasificaciones.set(indexMax, aux);
+
 	}
 
 	public static HashMap<String, Clasificacion> getMapClasificacion(ArrayList<Partido> partidos) {
@@ -151,15 +198,16 @@ public class Clasificacion {
 		Clasificacion clasificacion = mapa.get(equipo);
 		clasificacion.setNumGolesFavor(clasificacion.getNumGolesFavor() + golesFavor);
 		clasificacion.setNumGolesContra(clasificacion.getNumGolesContra() + golesContra);
-		clasificacion.setDiferenciaGoles(clasificacion.getNumGolesFavor()-clasificacion.getNumGolesContra());
+		clasificacion.setDiferenciaGoles(clasificacion.getNumGolesFavor() - clasificacion.getNumGolesContra());
 	}
 
 	private static void getPuntuacionEquipos(HashMap<String, Clasificacion> mapa) {
 		Set<String> clavesMapa = mapa.keySet();
 		for (String equipo : clavesMapa) {
 			Clasificacion clasificacion = mapa.get(equipo);
-			int newPuntuacion = 3 * clasificacion.getPartidosGanados() + clasificacion.getPartidosEmpate();
-			clasificacion.setPuntuacion(newPuntuacion);
+			clasificacion.setPuntuacion(3 * clasificacion.getPartidosGanados() + clasificacion.getPartidosEmpate());
+			clasificacion.setPartidosJugados(clasificacion.getPartidosGanados() + clasificacion.getPartidosEmpate()
+					+ clasificacion.getPartidosPerdidos());
 		}
 	}
 

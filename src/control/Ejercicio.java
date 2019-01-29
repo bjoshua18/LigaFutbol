@@ -5,6 +5,36 @@ import modelo.*;
 
 public class Ejercicio {
 	
+	// Por terminar
+	public void mostrarClasificacion(HashMap<String, Integer> puntuaciones) {
+		ArrayList<Object> clasificaciones = new ArrayList<Object>();
+		ArrayList<String> clavesPuntuaciones = new ArrayList(puntuaciones.keySet());
+		String equipoMayor;
+		String comprobado;
+		int puntuacionMayor;
+		
+		for(int i = 0; i < clavesPuntuaciones.size() - 1; i++) {
+			equipoMayor = clavesPuntuaciones.get(i);
+			puntuacionMayor = puntuaciones.get(equipoMayor);
+			
+			for(int j = i + 1; j < clavesPuntuaciones.size(); j++) {
+				comprobado = clavesPuntuaciones.get(j);
+				if(puntuacionMayor < puntuaciones.get(comprobado)) {
+					equipoMayor = comprobado;
+					puntuacionMayor = puntuaciones.get(comprobado);
+				}
+			}
+			
+			clasificaciones.add(equipoMayor);
+			clasificaciones.add(puntuacionMayor);
+		}
+		
+		for (int i = 0; i < clasificaciones.size()-1; i += 2)
+			System.out.println(clasificaciones.get(i) + " => " + clasificaciones.get(i+1));
+	}
+	
+	// Método que devuelve un mapa con los equipos y las puntuaciones correspondientes
+	
 	public HashMap<String, Integer> puntuacionEquipos(ArrayList<Partido> listaPartidos) {
 		HashMap<String, Integer> puntuaciones = new HashMap<String, Integer>();
 		HashMap<String, ArrayList<Integer>> mapaEstadisticas = getGEPMap(listaPartidos);

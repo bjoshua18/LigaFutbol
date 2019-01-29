@@ -24,16 +24,16 @@ public class Escritura {
 	}
 	
 	private static String getLineaStringCampos(Object obj, String separador) {
-		if(obj.getClass().getName().equalsIgnoreCase("modelo.Equipo")) {
+		if(obj.getClass().getName().equalsIgnoreCase(Equipo.class.getName())) {
 			Equipo e = (Equipo) obj;
 			return e.getLineaStringCampos(separador);
-		} else if(obj.getClass().getName().equalsIgnoreCase("modelo.Jugador")) {
+		} else if(obj.getClass().getName().equalsIgnoreCase(Jugador.class.getName())) {
 			Jugador j = (Jugador) obj;
 			return j.getLineaStringCampos(separador);
-		} else if(obj.getClass().getName().equalsIgnoreCase("modelo.Partido")) {
+		} else if(obj.getClass().getName().equalsIgnoreCase(Partido.class.getName())) {
 			Partido p = (Partido) obj;
 			return p.getLineaStringCampos(separador);
-		} else if(obj.getClass().getName().equals("modelo.Estadistica")) {
+		} else if(obj.getClass().getName().equals(Clasificacion.class.getName())) {
 			Clasificacion e = (Clasificacion) obj;
 			return e.getLineaStringCampos(separador);
 		} else if(obj.getClass().getName().equalsIgnoreCase(String.class.getName())) {

@@ -19,7 +19,7 @@ public class Equipo {
 		this.nombre = nombre;
 	}
 	
-	public Equipo(String[] atributos) {
+	public Equipo(String[] atributos) throws NumberFormatException {
 		this(Integer.parseInt(atributos[0]), atributos[1], atributos[2]);
 	}
 

@@ -24,15 +24,19 @@ public class Lista {
 	}
 
 	private static <T> void addObjetoEnLista(String[] atributos, ArrayList<T> lista, Enum<Clase> clase) {
-		if (clase == Clase.EQUIPO)
-			lista.add((T) new Equipo(atributos));
-		else if (clase == Clase.JUGADOR)
-			lista.add((T) new Jugador(atributos));
-		else if (clase == Clase.EQUIPO)
-			lista.add((T) new Partido(atributos));
-		else if (clase == Clase.CLASIFICACION)
-			lista.add((T) new Clasificacion(atributos));
-		else
-			System.out.println("La clase no está contemplada.");
+		try {
+			if (clase == Clase.EQUIPO)
+				lista.add((T) new Equipo(atributos));
+			else if (clase == Clase.JUGADOR)
+				lista.add((T) new Jugador(atributos));
+			else if (clase == Clase.PARTIDO)
+				lista.add((T) new Partido(atributos));
+			else if (clase == Clase.CLASIFICACION)
+				lista.add((T) new Clasificacion(atributos));
+			else
+				System.out.println("La clase no está contemplada.");
+		} catch (NumberFormatException e) {
+			System.out.println("No se ha podido crear el objeto.");
+		}
 	}
 }

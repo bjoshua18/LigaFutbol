@@ -24,7 +24,7 @@ public class Partido {
 		this.golesVisitante = golesVisitante;
 	}
 
-	public Partido(String[] atributos) {
+	public Partido(String[] atributos) throws NumberFormatException {
 		this(Integer.parseInt(atributos[0]), Integer.parseInt(atributos[1]), atributos[2],
 				Integer.parseInt(atributos[3]), atributos[4], Integer.parseInt(atributos[5]));
 	}

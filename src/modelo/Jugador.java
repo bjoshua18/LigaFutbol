@@ -19,7 +19,7 @@ public class Jugador extends Persona {
 		this.idEquipo = idEquipo;
 	}
 
-	public Jugador(String[] atributos) {
+	public Jugador(String[] atributos) throws NumberFormatException {
 		this(atributos[0], atributos[1], Integer.parseInt(atributos[2]), atributos[3], atributos[4].charAt(0),
 				Integer.parseInt(atributos[5]), Integer.parseInt(atributos[6]), Integer.parseInt(atributos[6]));
 	}
