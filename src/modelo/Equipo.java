@@ -1,6 +1,7 @@
 package modelo;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import control.Clase;
 import control.Lista;
@@ -21,6 +22,13 @@ public class Equipo {
 	
 	public Equipo(String[] atributos) throws NumberFormatException {
 		this(Integer.parseInt(atributos[0]), atributos[1], atributos[2]);
+	}
+	
+	
+
+	@Override
+	public String toString() {
+		return "idEquipo: " + idEquipo + ", nombreCorto: " + nombreCorto + ", nombre: " + nombre;
 	}
 
 	public int getIdEquipo() {
@@ -49,6 +57,13 @@ public class Equipo {
 
 	public String getLineaStringCampos(String separador) {
 		return this.getIdEquipo() + separador + this.getNombreCorto() + separador + this.getNombre();
+	}
+	
+	public static HashMap<String, Equipo> getMapEquipo(ArrayList<Equipo> lista) {
+		HashMap<String, Equipo> mapa = new HashMap<String, Equipo>();
+		for( Equipo equipo : lista)
+			mapa.put(equipo.getNombreCorto(), equipo);
+		return mapa;
 	}
 
 	public static ArrayList<Equipo> crearListaFichero(String rutaFichero, String separador) {

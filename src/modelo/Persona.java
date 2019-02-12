@@ -27,6 +27,10 @@ public class Persona {
 		this.fecha_nac = fecha_nac;
 		this.sexo = sexo;
 	}
+	
+	public String toString() {
+		return this.getNombre();
+	}
 
 	
 	public char getSexo() {

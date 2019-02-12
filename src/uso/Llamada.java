@@ -1,6 +1,7 @@
 package uso;
 
 import java.util.*;
+import java.util.Map.Entry;
 
 import control.*;
 import modelo.*;
@@ -23,7 +24,7 @@ public class Llamada {
 		// Aleatorio.crearListaPartidosAleatorios(listaEquipos);
 		// Escritura.escribirLista(listaPartidos, "ficheros/partidosAleatorios.txt", "#");
 
-		ArrayList<Partido> listaPartidos = Partido.crearListaFichero("H:/partidos.txt", "#");
+		ArrayList<Partido> listaPartidos = Partido.crearListaFichero("D:/partidos.txt", "#");
 		HashMap<String, ArrayList<Integer>> mapa = ejercicio.getGEPMap(listaPartidos);
 
 		HashMap<String, Clasificacion> mapaClasificacion = Clasificacion.getMapClasificacion(listaPartidos);
@@ -32,7 +33,15 @@ public class Llamada {
 		
 		Clasificacion.ordenarMapaClasificacion(listaClasificacion);
 		
-		ejercicio.mostrarClasificacion(ejercicio.puntuacionEquipos(listaPartidos));
+		HashMap<String, Integer> puntuaciones = ejercicio.generaPuntosEquipos(mapa);
+		ejercicio.ordenarMapaPuntosEquipos(puntuaciones);
+		
+		ejercicio.pruebaSwing();
+		
+		//ejercicio.mostrarClasificacion(ejercicio.puntuacionEquipos(listaPartidos));
+		
+		HashMap<String, ArrayList<Integer>> clasificacion = ejercicio.creaClasificacion("D:/partidos.txt");
+		List<Entry<String, Integer>> ordenado = ejercicio.ordenarMapaClasificacion(clasificacion);
 
 		System.out.println("FIN DEL PROGRAMA");
 	}

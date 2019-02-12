@@ -1,9 +1,123 @@
 package control;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.*;
+import java.util.Map.Entry;
+
+import javax.swing.ComboBoxModel;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+
 import modelo.*;
 
 public class Ejercicio {
+	
+	// 07 febrero 2019
+	
+	public HashMap<String, ArrayList<Integer>> creaClasificacion(String rutaFichero) {
+		HashMap<String, ArrayList<Integer>> mapa = new HashMap<String, ArrayList<Integer>>();
+		HashMap<String, Equipo> mapaEquipos = Equipo.getMapEquipo(Equipo.crearListaFichero("ficheros/equipos.txt", "#"));
+		HashMap<String, Clasificacion> mapaClasificaciones = Clasificacion.getMapClasificacion(Partido.crearListaFichero("D:/partidos.txt" , "#"));
+		
+		for(String clave: mapaEquipos.keySet())
+			mapa.put(mapaEquipos.get(clave).getNombre(), getArrayListClasificacion(mapaClasificaciones.get(clave)));
+		return mapa;
+	}
+	
+	private ArrayList<Integer> getArrayListClasificacion(Clasificacion clasificacion) {
+		ArrayList<Integer> listaClasificacion = new ArrayList<Integer>();
+		listaClasificacion.add(clasificacion.getPuntuacion());
+		listaClasificacion.add(clasificacion.getPartidosJugados());
+		listaClasificacion.add(clasificacion.getPartidosGanados());
+		listaClasificacion.add(clasificacion.getPartidosEmpate());
+		listaClasificacion.add(clasificacion.getPartidosPerdidos());
+		listaClasificacion.add(clasificacion.getNumGolesFavor());
+		listaClasificacion.add(clasificacion.getNumGolesContra());
+		return listaClasificacion;
+	}
+	
+	public List<Entry<String, Integer>> ordenarMapaClasificacion(HashMap<String, ArrayList<Integer>> clasificaciones) {
+		HashMap<String, Integer> puntuaciones = new HashMap<String, Integer>();
+		for(String clave : clasificaciones.keySet())
+			puntuaciones.put(clave, clasificaciones.get(clave).get(0));
+			
+		return ordenarMapaPuntosEquipos(puntuaciones);
+	}
+
+	// 05 febrero 2019
+	
+	public List<Entry<String, Integer>> ordenarMapaPuntosEquipos(HashMap<String, Integer> puntosEquipos) {
+		Set<Entry<String, Integer>> set = puntosEquipos.entrySet();
+        List<Entry<String, Integer>> list = new ArrayList<Entry<String, Integer>>(set);
+        Collections.sort( list, new Comparator<Map.Entry<String, Integer>>()
+        {
+            public int compare( Map.Entry<String, Integer> o1, Map.Entry<String, Integer> o2 )
+            {
+                return (o2.getValue()).compareTo( o1.getValue() );
+            }
+        } );
+        for(Map.Entry<String, Integer> entry:list){
+            System.out.println(entry.getKey()+" ==== "+entry.getValue());
+        }
+        
+        return list;
+	}
+	
+	// 31 enero 2019
+
+	public void muestraPuntosOrdenadoEquipos(HashMap<String, ArrayList<Integer>> resultado) {
+		HashMap<String, Integer> mapaOrdenadoPuntos = new HashMap<String, Integer>();
+		
+		for (String clave : resultado.keySet()) {
+			ArrayList<Integer> datos = resultado.get(clave);
+			int puntos = datos.get(0) * 3 + datos.get(1);
+			mapaOrdenadoPuntos.put(clave, puntos);
+		}
+		// ahora si ordenamos...
+		// https://stackoverflow.com/questions/8119366/sorting-hashmap-by-values
+		// https://www.javacodegeeks.com/2017/09/java-8-sorting-hashmap-values-ascending-descending-order.html
+	}
+	
+	// 30 enero 2019
+	
+	// prueba de SWING (MVC)
+	
+	public void pruebaSwing() {
+		JFrame ventana;
+		
+		// Creamos los objetos que vamos a mostrar
+		ventana = new JFrame("Mi primer SWING");
+		JButton boton = new JButton("PulsaMe!");
+		JPanel panel = new JPanel();
+		
+		// Añadimos los objetos para organizarlos
+		ventana.add(panel);
+		ArrayList<Clasificacion> listaClasificaciones = Clasificacion.crearListaFichero("ficheros/clasificacion.txt", ",");
+
+		ArrayList<Equipo> equipos = Equipo.crearListaFichero("ficheros/equipos.txt", "#");
+				
+		// Creamos una lista
+		JComboBox lista = new JComboBox(equipos.toArray());
+		panel.add(lista);
+		panel.add(boton);
+		boton.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// Hacer que escriba por consola el equipo que se ha pulsado
+				// Al pulsar, que me escriba el valor seleccionado que tiene la lista
+				System.out.println(lista.getSelectedItem());
+				
+			}
+		});
+		
+		// Para que sea visible
+		ventana.pack();
+		ventana.setVisible(true);
+	}
 	
 	// Por terminar
 	public void mostrarClasificacion(HashMap<String, Integer> puntuaciones) {
@@ -38,6 +152,18 @@ public class Ejercicio {
 	public HashMap<String, Integer> puntuacionEquipos(ArrayList<Partido> listaPartidos) {
 		HashMap<String, Integer> puntuaciones = new HashMap<String, Integer>();
 		HashMap<String, ArrayList<Integer>> mapaEstadisticas = getGEPMap(listaPartidos);
+		Set<String> clavesMapa = mapaEstadisticas.keySet();
+		
+		for (String clave : clavesMapa)
+			puntuaciones.put(clave, getPuntuacion(mapaEstadisticas.get(clave)));
+		
+		return puntuaciones;
+	}
+	
+	// Método hecho en clase
+	
+	public HashMap<String, Integer> generaPuntosEquipos(HashMap<String, ArrayList<Integer>> mapaEstadisticas) {
+		HashMap<String, Integer> puntuaciones = new HashMap<String, Integer>();
 		Set<String> clavesMapa = mapaEstadisticas.keySet();
 		
 		for (String clave : clavesMapa)

@@ -20,6 +20,8 @@ public class Clasificacion {
 	private int numGolesContra;
 	private int diferenciaGoles;
 
+	
+	// CONSTRUCTORES
 	public Clasificacion(String nombreCortoEquipo) {
 		this.equipo = nombreCortoEquipo;
 		this.puntuacion = 0;
@@ -123,6 +125,7 @@ public class Clasificacion {
 		this.diferenciaGoles = diferenciaGoles;
 	}
 
+	// MÉTODOS
 	public String getLineaStringCampos(String separador) {
 		return this.getEquipo() + separador + this.getPuntuacion() + separador + this.getPartidosGanados() + separador
 				+ this.getPartidosEmpate() + separador + this.getPartidosPerdidos() + separador
@@ -136,6 +139,7 @@ public class Clasificacion {
 
 	public static void ordenarMapaClasificacion(ArrayList<Clasificacion> listaClasificaciones) {
 		Clasificacion max;
+		
 		for (int i = 0; i < listaClasificaciones.size() - 1; i++) {
 			max = listaClasificaciones.get(i);
 
@@ -261,5 +265,9 @@ public class Clasificacion {
 	private static void addEquipoEnLista(String equipo, ArrayList<String> lista) {
 		if (!lista.contains(equipo))
 			lista.add(equipo);
+	}
+	
+	public String toString() {
+		return this.getEquipo() + " => " + this.getPuntuacion();
 	}
 }
